@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "name": "nodect",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "license": "MIT"
+}
