@@ -18,11 +18,11 @@ Hooks are JavaScript functions, but they impose two additional rules:
 
 - 🙅‍♂️ (React): ~~Only call Hooks **at the top level**. Don’t call Hooks inside loops, conditions, or nested functions;~~
 - 🙅‍♂️ (React): ~~Only call Hooks **from React function components.** Don’t call Hooks from regular JS functions;~~
-- 🥰 (Nodect): **Call Hooks anywhere.**
+- 🥰 (Nodect): **Call Hooks from anywhere.**
 
 
 ## 📌 State Hook
-This example sets a counter. When you call the setter, it increments the value:
+This example sets a name. When you call the setter, it changes the value:
 
 ```typescript
 import { useState } from 'nodect'
@@ -130,14 +130,14 @@ the counter has changed -> 2
 the counter has changed -> 1
 ```
 
-When you call `useEffect`, you’re telling Nodect to run your “effect” function after flushing changes to the getter. By default, Nodect runs the effects after every change — including the first change. This is the reason of the first log with 0.
+When you call `useEffect`, you’re telling Nodect to run your “effect” function after flushing changes to the state. By default, Nodect runs the effects after every change — including the first change. This is the reason of the first log with 0.
 
 ```
 the counter has changed -> 0
 ```
 
 ## 🎈 Hook Tips
-Setters define new state values through objects or by a callback function that receives the state as a parameter:
+Setters define new states through values or by a callback function that receives the state as a parameter:
 
 ```typescript
 const [age, setAge] = useState(18)
