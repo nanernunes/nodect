@@ -1,7 +1,8 @@
 # Nodect
 
-[![version](https://img.shields.io/github/tag/nanernunes/nodect.svg)](https://github.com/nanernunes/nodect/releases/latest)
 [![license](https://img.shields.io/github/license/nanernunes/nodect.svg)](LICENSE)
+[![version](https://img.shields.io/github/tag/nanernunes/nodect.svg)](https://github.com/nanernunes/nodect/releases/latest)
+[![npm version](https://img.shields.io/npm/v/nodect.svg?style=flat)](https://www.npmjs.com/package/nodect)
 [![LoC](https://tokei.rs/b1/github/nanernunes/nodect?category=lines)](https://github.com/nanernunes/nodect)
 [![codecov](https://codecov.io/gh/nanernunes/nodect/branch/master/graph/badge.svg)](https://codecov.io/gh/nanernunes/nodect)
 
@@ -10,6 +11,7 @@ Nodect is a subset of React functions and hooks designed to work with Node
 ![nodect logo](assets/nodect.png)
 
 ## Nodect vs React
+
 Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class.
 
 Hooks are JavaScript functions, but **~~you need to follow two rules when using them~~**:
@@ -30,37 +32,46 @@ By following this rule, you ensure that all stateful logic in a component is cle
 
 ## Nodect Rules
 
-✅ State envs were replaced with getters. So, instead of using them
-```javascript
+✅ State envs were replaced with getters.
+```typescript
+/* value is a getter function */
 const [value, setValue] = useState()
+```
 
-// as a normal env
+ ```typescript
+/* So, instead of using it as an env */
 console.log(value)
 
-// use a function instead
+/* call the function instead */
 console.log(value())
 ```
 
+```typescript
+/* You can destructure the value with a get prefix
+so you don't forget about the env/function rule */
+const [getCounter, setCounter] = useState(0)
+```
+
 ## Using States
-```javascript
+```typescript
 import { useState } from 'nodect'
 
 const HelloWorld = () => {
 
-    /* You can destructure the value with a get prefix
-       so you don't forget about the env/function rule
-       eg.: const [getHello, setHello] = useState() */
-    const [hello, setHello] = useState("world")
-
-    console.log(`Yay! ${hello()}`)
+    const [getHello, setHello] = useState("World")
+    console.log(`Yay! ${getHello()}`)
 
     setHello("nodect")
-    console.log(`I'm using ${hello()}`)
+    console.log(`I'm using ${getHello()}`)
 }
+```
+```
+Yay! World
+I'm using nodect
 ```
 
 ## Creating Custom Hooks
-```javascript
+```typescript
 import { useState } from 'nodect'
 
 const useCounter = (initialValue = 0) => {
@@ -76,7 +87,7 @@ export { useCounter }
 ```
 
 ## Using Effects
-```javascript
+```typescript
 import { useEffect } from 'nodect'
 import { useCounter } from 'hooks'
 
@@ -91,4 +102,11 @@ const Countable = () => {
     increment()
     decrement()
 }
+```
+
+```
+the counter has changed -> 0
+the counter has changed -> 1
+the counter has changed -> 2
+the counter has changed -> 1
 ```
