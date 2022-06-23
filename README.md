@@ -10,29 +10,38 @@ Nodect is a subset of React functions and hooks designed to work with Node
 
 ![nodect logo](assets/nodect.png)
 
-## Nodect vs React
-
+# Hooks at a Glance
 Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class.
 
-Hooks are JavaScript functions, but **~~you need to follow two rules when using them~~**:
+## ✌️ Rules of Hooks
+Hooks are JavaScript functions, but they impose two additional rules:
 
-**Only Call Hooks at the Top Level**
+- 🙅‍♂️ (React): ~~Only call Hooks **at the top level**. Don’t call Hooks inside loops, conditions, or nested functions;~~
+- 🙅‍♂️ (React): ~~Only call Hooks **from React function components.** Don’t call Hooks from regular JS functions;~~
+- 🥰 (Nodect): **Call Hooks anywhere.**
 
-Don’t call Hooks inside loops, conditions, or nested functions. Instead, always use Hooks at the top level of your React function, before any early returns. By following this rule, you ensure that Hooks are called in the same order each time a component renders. That’s what allows React to correctly preserve the state of Hooks between multiple useState and useEffect calls.
 
-**~~Only Call Hooks from React Functions~~**
+## 📌 State Hook
+This example sets a counter. When you call the setter, it increments the value:
 
-Don’t call Hooks from regular JavaScript functions. Instead, you can:
+```typescript
+import { useState } from 'nodect'
 
-✅ Call Hooks from React function components. **(no limitation with Nodect);**
+// Declare a new state function, which we'll call "name"
+const [name, setName] = useState("World")
 
-✅ Call Hooks from custom Hooks (we’ll learn about them on the next page).
+console.log(`Hello ${name()}!`)
 
-By following this rule, you ensure that all stateful logic in a component is clearly visible from its source code.
+setName("Nodect")
+console.log(`I'm using ${name()}`) 
+```
+```
+Hello World!
+I'm using Nodect
+```
 
-## Nodect Rules
 
-✅ State envs were replaced with getters.
+## 💡 Nodect replaces **state envs** with **getters**.
 ```typescript
 /* value is a getter function */
 const [value, setValue] = useState()
@@ -44,33 +53,20 @@ console.log(value)
 
 /* call the function instead */
 console.log(value())
-```
 
-```typescript
 /* You can destructure the value with a get prefix
 so you don't forget about the env/function rule */
 const [getCounter, setCounter] = useState(0)
 ```
 
-## Using States
-```typescript
-import { useState } from 'nodect'
 
-const HelloWorld = () => {
+## 💡 Building Your Own Hooks
+Sometimes, we want to reuse some stateful logic between components. Custom Hooks let you do this, but without adding more functions to your tree.
 
-    const [getHello, setHello] = useState("World")
-    console.log(`Yay! ${getHello()}`)
+Let’s say we want to reuse a counter logic in more than one place or just isolate its logic.
 
-    setHello("nodect")
-    console.log(`I'm using ${getHello()}`)
-}
-```
-```
-Yay! World
-I'm using nodect
-```
+First, we’ll extract this logic into a custom Hook called useCounter:
 
-## Creating Custom Hooks
 ```typescript
 import { useState } from 'nodect'
 
@@ -86,12 +82,35 @@ const useCounter = (initialValue = 0) => {
 export { useCounter }
 ```
 
-## Using Effects
+Now we can use it any code:
+
+```typescript
+/* without functions, components or closures */
+const [counter, increment, decrement] = useCounter()
+```
+
+```typescript
+const InsideFunction = () => {
+    
+    /* with an optional custom initial value */
+    const [counter, increment, decrement] = useCounter(10)
+
+    increment()
+    decrement()
+}
+```
+
+The state of each hook is completely independent. Hooks are a way to reuse stateful logic, not state itself. In fact, each call to a Hook has a completely isolated state — so you can even use the same custom Hook twice in the same block of code.
+
+## ⚡️ Effect Hook
+You’ve likely performed data fetching, subscriptions, and etc. We call these operations “side effects” (or “effects” for short). The Effect Hook, `useEffect`, adds the ability to perform side effects
+
+For example, this function logs after any counter update:
+
 ```typescript
 import { useEffect } from 'nodect'
-import { useCounter } from 'hooks'
 
-const Countable = () => {
+const CounterChanges = () => {
     const [counter, increment, decrement] = useCounter()
     
     useEffect(() => {
@@ -109,4 +128,26 @@ the counter has changed -> 0
 the counter has changed -> 1
 the counter has changed -> 2
 the counter has changed -> 1
+```
+
+When you call `useEffect`, you’re telling Nodect to run your “effect” function after flushing changes to the getter. By default, Nodect runs the effects after every change — including the first change. This is the reason of the first log with 0.
+
+```
+the counter has changed -> 0
+```
+
+## 🎈 Hook Tips
+Setters define new state values through objects or by a callback function that receives the state as a parameter:
+
+```typescript
+const [age, setAge] = useState(18)
+
+/* by value */
+setAge(19)
+
+/* by a function */
+setAge((age) => age + 1)
+
+/* or even this way */
+setAge(age => ++age)
 ```
