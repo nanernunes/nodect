@@ -1,9 +1,6 @@
 let bindings = {}
 
-const getIndex = () => (
-    Date.now().toString(36)
-    + Math.random().toString(36).substring(2)
-)
+const getIndex = () => Date.now().toString(36) + Math.random().toString(36).substring(2)
 
 const useState = (initialValue) => {
     let state
@@ -19,7 +16,7 @@ const useState = (initialValue) => {
         state = newValue
 
         const effects = bindings[getState.id] || []
-        effects.map(effect => effect())
+        effects.map((effect) => effect())
     }
 
     setState(initialValue)
@@ -33,10 +30,6 @@ const useEffect = (effect, dependencies) => {
         bindings[dependency.id] ??= []
         bindings[dependency.id].push(effect)
     }
-
 }
 
-export {
-    useState,
-    useEffect,
-}
+export { useState, useEffect }

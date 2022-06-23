@@ -3,5 +3,13 @@
   "name": "nodect",
   "version": "1.0.0",
   "main": "index.mjs",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn node --no-warnings --experimental-vm-modules $(yarn bin jest) --config=jest.config.mjs"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.3",
+    "jest": "^28.1.1",
+    "prettier": "2.7.1"
+  }
 }
