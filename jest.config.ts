@@ -5,12 +5,10 @@ const config = {
     globals: {
         'ts-jest': {
             diagnostics: {
-                ignoreCodes: [
-                    'TS151001',
-                ],
-            }
-        }
-    }
+                ignoreCodes: ['TS151001'],
+            },
+        },
+    },
 }
 
 export default config

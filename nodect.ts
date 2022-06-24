@@ -1,13 +1,11 @@
-let bindings: {[__id__: string]: Function[]} = {}
+let bindings: { [__id__: string]: Function[] } = {}
 
 interface State<T> {
     __id__: string
     (): T
 }
 
-const getIndex = (): string => (
-    Date.now().toString(36) + Math.random().toString(36).substring(2)
-)
+const getIndex = (): string => Date.now().toString(36) + Math.random().toString(36).substring(2)
 
 const useState = <T>(initialValue?: T): [State<T>, Function] => {
     let state: T
@@ -39,4 +37,4 @@ const useEffect = (effect: Function, dependencies: State<any>[]) => {
     }
 }
 
-export { useState, useEffect }
+export { State, useState, useEffect }

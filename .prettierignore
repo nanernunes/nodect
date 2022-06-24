@@ -1,5 +1,5 @@
 # Ignore everything recursively
 *
 
-# But not the .mjs files
-!*.mjs
+# But not the .ts files
+!*.ts

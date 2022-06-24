@@ -1,6 +1,3 @@
-import { useState, useEffect } from './nodect'
+import { State, useState, useEffect } from './nodect'
 
-export {
-    useState,
-    useEffect,
-}
+export { State, useState, useEffect }
