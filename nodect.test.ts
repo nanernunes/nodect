@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { useState, useEffect } from './nodect.mjs'
+import { useState, useEffect } from './nodect'
 
 test('useState should allow an initial value', () => {
     const [value] = useState(10)
@@ -14,13 +14,13 @@ test('useState should return all values as functions', () => {
 
 test('useState should include a random id on state', () => {
     const [state] = useState()
-    expect(state.id).not.toBeUndefined
+    expect(state.__id__).not.toBeUndefined
 })
 
 test('useState should always return a random identifier', () => {
     const [one] = useState()
     const [two] = useState()
-    expect(one.id).not.toEqual(two.id)
+    expect(one.__id__).not.toEqual(two.__id__)
 })
 
 test('useState should allow a setter function with values', () => {

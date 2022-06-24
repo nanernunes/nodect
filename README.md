@@ -82,7 +82,7 @@ const useCounter = (initialValue = 0) => {
 export { useCounter }
 ```
 
-Now we can use it any code:
+Now we can use it in any code:
 
 ```typescript
 /* without functions, components or closures */
